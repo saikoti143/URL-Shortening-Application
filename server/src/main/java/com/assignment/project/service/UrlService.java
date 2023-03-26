@@ -1,10 +1,16 @@
 package com.assignment.project.service;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.assignment.project.exceptions.InvalidURLEnteredException;
 import com.assignment.project.model.Url;
 import com.assignment.project.repository.UrlRepository;
 
@@ -17,9 +23,9 @@ public class UrlService implements UrlServices {
   @Autowired
   UrlRepository urlRepo;
 
-  public Url generateShortUrl(String originalUrl) {
+  public Url generateShortUrl(String originalUrl) throws InvalidURLEnteredException, IOException {
     if (!isValidUrl(originalUrl)) {
-      return null;
+      throw new InvalidURLEnteredException("Entered URL is invalid");
     }
     String shortUrl = generateRandomString(SHORT_URL_LENGTH);
     Url url = new Url(originalUrl, shortUrl, LocalDateTime.now().plusMinutes(EXPIRATION_TIME_MINUTES));
@@ -37,9 +43,31 @@ public class UrlService implements UrlServices {
     return null;
   }
 
-  private boolean isValidUrl(String url) {
-    // Implement your URL validation logic here
-    return true;
+  private boolean isValidUrl(String url) throws IOException {
+	
+	Url ur = new Url();
+	ur.setOriginalUrl(url);
+	
+	  try {
+	        URL u = new URL(ur.getOriginalUrl());
+	        u.toURI(); 
+	        try {
+	        	HttpURLConnection conn = (HttpURLConnection) u.openConnection();
+	        	conn.setRequestMethod("HEAD");
+	            int responseCode = conn.getResponseCode();
+	            System.out.println(responseCode);
+	            return responseCode <500;
+	        }
+	        catch(Exception e){
+	        	return false;
+	        }
+	        
+          
+	        	    } catch (MalformedURLException | URISyntaxException e) {
+	    	System.out.println(e.getMessage());
+	        return false;
+	    }
+    
   }
 
   private String generateRandomString(int length) {

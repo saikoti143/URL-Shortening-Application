@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.assignment.project.exceptions.DuplicateUrlException;
+import com.assignment.project.exceptions.InvalidURLEnteredException;
 import com.assignment.project.exceptions.UrlExpiredException;
 import com.assignment.project.exceptions.UrlNotFoundException;
 import com.assignment.project.model.Url;
@@ -33,7 +34,8 @@ public class UrlController {
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/urls")
-	public ResponseEntity<Url> generateShortUrl(@RequestBody String originalUrl) throws DuplicateUrlException {
+	public ResponseEntity<Url> generateShortUrl(@RequestBody String originalUrl)
+			throws DuplicateUrlException, InvalidURLEnteredException, IOException {
 
 		if (urlrepo.existsByoriginalUrl(originalUrl)) {
 			throw new DuplicateUrlException("Duplicate URL,Given URL already exist in DB");
@@ -51,7 +53,8 @@ public class UrlController {
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping("/{shortUrl}")
+	@GetMapping("/{shortUrl::[a-zA-Z0-9]{7}}")
+	
 	public void redirectToLongUrl(@PathVariable String shortUrl, HttpServletResponse response)
 			throws IOException, UrlExpiredException {
 		// Find the long URL for the given short URL
