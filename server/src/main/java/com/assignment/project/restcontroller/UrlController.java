@@ -53,13 +53,13 @@ public class UrlController {
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping("/{shortUrl::[a-zA-Z0-9]{7}}")
-	
+	@GetMapping("/{shortUrl:[a-zA-Z0-9]{7}}")
+
 	public void redirectToLongUrl(@PathVariable String shortUrl, HttpServletResponse response)
 			throws IOException, UrlExpiredException {
 		// Find the long URL for the given short URL
 		Url url = urlService.getOriginalUrl(shortUrl);
-
+		System.out.println(url.getOriginalUrl());
 		if (url == null) {
 			// If the short URL does not exist, send a 404 Not Found response
 			throw new UrlNotFoundException(shortUrl + " is not a shortedned URL try Shortened the URL");

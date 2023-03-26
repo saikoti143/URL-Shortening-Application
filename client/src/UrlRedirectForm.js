@@ -17,6 +17,7 @@ export const UrlRedirectForm = () => {
         window.open(shortUrl, "_blank");
       } else {
         window.alert(error.response.data.message);
+        
       }
     }
   };
