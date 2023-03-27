@@ -39,7 +39,7 @@ export const UrlRedirectForm = () => {
           value={shortUrl}
           onChange={handleInputChange}
         />
-        <button type="submit">Navigate</button>
+        <button style={{margin: '10px'}} type="submit">Navigate</button>
         {error && (
           <div>
             <p style={{ color: "red" }}>{error}</p>

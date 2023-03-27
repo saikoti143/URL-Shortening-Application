@@ -59,7 +59,7 @@ export const  UrlForm = () => {
         onChange={handleInputChange}
         required
       />
-      <button type="submit">Shorten</button>
+      <button style={{margin: '10px'}} type="submit">Shorten</button>
       {shortUrl && (
         <p>
           Short URL: <a href={shortUrl}>{shortUrl}</a>
