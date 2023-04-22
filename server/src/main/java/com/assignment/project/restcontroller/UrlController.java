@@ -46,9 +46,9 @@ public class UrlController {
 			return ResponseEntity.badRequest().body(url);
 		}
 
-		String shortUrl = "http://localhost:8080/" + url.getShortUrl();
-
-		System.out.println(shortUrl);
+//		String shortUrl = "http://localhost:8080/" + url.getShortUrl();
+//
+		System.out.println(url.getShortUrl());
 		return ResponseEntity.ok(url);
 	}
 

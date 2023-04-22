@@ -15,7 +15,7 @@ export const  UrlForm = () => {
     try {
      
       // call backend API to generate short URL and retrieve it
-      const response = await fetch('http://localhost:8080/api/urls', {
+      const response = await fetch('http://localhost:8080/api/urls', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -38,6 +38,7 @@ export const  UrlForm = () => {
       setErrorMessage('Error generating short URL');
     }
   };
+
 
   const handleInputChange = (e) => {
     setOriginalUrl(e.target.value);

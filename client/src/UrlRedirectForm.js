@@ -11,10 +11,17 @@ export const UrlRedirectForm = () => {
     try {
       setError(null);
       const response = await axios.get(shortUrl);
+    
+      if(response.status<500){
+        window.open(shortUrl, "_blank");
+        console.log("url opened but latency issue")
+      }
+      
     } catch (error) {
       console.log(error.message);
       if (error.message === "Network Error") {
         window.open(shortUrl, "_blank");
+        console.log("url opened but latency issue")
       } else {
         window.alert(error.response.data.message);
         
